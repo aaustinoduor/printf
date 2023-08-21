@@ -1,15 +1,15 @@
 #include "main.h"
 
-/************ RETURN POINTER ****************?
+/****************** PRINT POINTER ******************/
 /**
- * print_pointer - Returns the value of a pointer variable
+ * print_pointer - Prints the value of a pointer variable
  * @types: List a of arguments
  * @buffer: Buffer array to handle print
  * @flags:  Calculates active flags
  * @width: get width
  * @precision: Precision specification
  * @size: Size specifier
- * Return: Num of characters printed.
+ * Return: Number of chars printed.
  */
 int print_pointer(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
@@ -47,14 +47,14 @@ int print_pointer(va_list types, char buffer[],
 
 	ind++;
 
-	/*return (write(1, &buffer[r], BUFF_SIZE - r - 1));*/
+	/*return (write(1, &buffer[i], BUFF_SIZE - i - 1));*/
 	return (write_pointer(buffer, ind, length,
 		width, flags, padd, extra_c, padd_start));
 }
 
-/********************* RETURN NON PRINTABLE ********************/
+/************************* PRINT NON PRINTABLE *************************/
 /**
- * print_non_printable - Returns ascii codes in hexa of non printable chars
+ * print_non_printable - Prints ascii codes in hexa of non printable chars
  * @types: Lista of arguments
  * @buffer: Buffer array to handle print
  * @flags:  Calculates active flags
@@ -66,7 +66,7 @@ int print_pointer(va_list types, char buffer[],
 int print_non_printable(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	int r = 0, offset = 0;
+	int i = 0, offset = 0;
 	char *str = va_arg(types, char *);
 
 	UNUSED(flags);
@@ -77,25 +77,25 @@ int print_non_printable(va_list types, char buffer[],
 	if (str == NULL)
 		return (write(1, "(null)", 6));
 
-	while (str[r] != '\0')
+	while (str[i] != '\0')
 	{
-		if (is_printable(str[r]))
-			buffer[r + offset] = str[r];
+		if (is_printable(str[i]))
+			buffer[i + offset] = str[i];
 		else
-			offset += append_hexa_code(str[r], buffer, r + offset);
+			offset += append_hexa_code(str[i], buffer, i + offset);
 
-		r++;
+		i++;
 	}
 
-	buffer[r + offset] = '\0';
+	buffer[i + offset] = '\0';
 
-	return (write(1, buffer, r + offset));
+	return (write(1, buffer, i + offset));
 }
 
-/********************* RETURN REVERSE *********************/
+/************************* PRINT REVERSE *************************/
 /**
- * print_reverse - Returns reverse string.
- * @types: List a of arguments
+ * print_reverse - Prints reverse string.
+ * @types: Lista of arguments
  * @buffer: Buffer array to handle print
  * @flags:  Calculates active flags
  * @width: get width
@@ -108,7 +108,7 @@ int print_reverse(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
 	char *str;
-	int r, count = 0;
+	int i, count = 0;
 
 	UNUSED(buffer);
 	UNUSED(flags);
@@ -123,35 +123,35 @@ int print_reverse(va_list types, char buffer[],
 
 		str = ")Null(";
 	}
-	for (r = 0; str[r]; r++)
+	for (i = 0; str[i]; i++)
 		;
 
-	for (r = r - 1; r >= 0; r--)
+	for (i = i - 1; i >= 0; i--)
 	{
-		char x = str[r];
+		char z = str[i];
 
-		write(1, &x, 1);
+		write(1, &z, 1);
 		count++;
 	}
 	return (count);
 }
-/******************* RETURN A STRING IN ROT13 *********************/
+/************************* PRINT A STRING IN ROT13 *************************/
 /**
- * print_rot13string - Return a string in rot13.
+ * print_rot13string - Print a string in rot13.
  * @types: Lista of arguments
  * @buffer: Buffer array to handle print
  * @flags:  Calculates active flags
  * @width: get width
  * @precision: Precision specification
  * @size: Size specifier
- * Return: Num of characters printed
+ * Return: Numbers of chars printed
  */
 int print_rot13string(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	char y;
+	char x;
 	char *str;
-	unsigned int r, k;
+	unsigned int i, j;
 	int count = 0;
 	char in[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	char out[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
@@ -165,22 +165,22 @@ int print_rot13string(va_list types, char buffer[],
 
 	if (str == NULL)
 		str = "(AHYY)";
-	for (r = 0; str[r]; r++)
+	for (i = 0; str[i]; i++)
 	{
-		for (k = 0; in[k]; k++)
+		for (j = 0; in[j]; j++)
 		{
-			if (in[k] == str[r])
+			if (in[j] == str[i])
 			{
-				y = out[k];
+				x = out[j];
 				write(1, &x, 1);
 				count++;
 				break;
 			}
 		}
-		if (!in[k])
+		if (!in[j])
 		{
-			y = str[r];
-			write(1, &y, 1);
+			x = str[i];
+			write(1, &x, 1);
 			count++;
 		}
 	}
